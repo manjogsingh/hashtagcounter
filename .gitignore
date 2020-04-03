@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+# I/O files
+*.txt
+
+.DS_Store
+
+# VSCode
+.vscode/
