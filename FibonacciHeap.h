@@ -21,13 +21,12 @@ public:
 	FibonacciHeap();
 	~FibonacciHeap();
 
-	Node* insert(int);
+	void insert(int);
 	void meld(FibonacciHeap*);
+	void increaseKey(Node*, int);
 
 	int getMaximum();
 	int removeMaximum();
-
-	void increaseKey(Node*, int);
 
 private:
 	Node* _meld(Node* a, Node* b);

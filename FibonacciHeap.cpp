@@ -21,14 +21,15 @@ FibonacciHeap::FibonacciHeap() {
 
 FibonacciHeap::~FibonacciHeap() {
 	if (fHeap) {
-		// _deleteHeap(fHeap);
+		_deleteHeap(fHeap);
 	}
 }
 
-Node* FibonacciHeap::insert(int value) {
+void FibonacciHeap::insert(int value) {
 	Node* in = new Node(value);
 	fHeap = _meld(fHeap, in);
-	return in;
+	in = nullptr;
+	delete in;
 }
 
 void FibonacciHeap::meld(FibonacciHeap* otherHeap) {
@@ -37,20 +38,23 @@ void FibonacciHeap::meld(FibonacciHeap* otherHeap) {
 	//TODO cleanup of other
 }
 
+void FibonacciHeap::increaseKey(Node* n, int iValue) {
+	fHeap = _increaseKey(fHeap, n, iValue);
+}
+
 int FibonacciHeap::getMaximum() {
 	return fHeap->value;
 }
 
 int FibonacciHeap::removeMaximum() {
-	Node* max = fHeap;
-	fHeap = _removeMaximum(fHeap);
-	int mValue = max->value;
-	delete max;
-	return mValue;
-}
-
-void FibonacciHeap::increaseKey(Node* n, int iValue) {
-	fHeap = _increaseKey(fHeap, n, iValue);
+	if (fHeap) {
+		Node* max = fHeap;
+		fHeap = _removeMaximum(fHeap);
+		int mValue = max->value;
+		delete max;
+		return mValue;
+	}
+	return -1;
 }
 
 Node* FibonacciHeap::_removeMaximum(Node* n) {

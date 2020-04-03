@@ -32,27 +32,19 @@ void printQuery(OFStream *outputFile, Map *inputData, int *array, int query) {
 	long pos = outputFile->tellp();
 	outputFile->seekp(pos - 1);
 	outputFile->write("\n", 1);
-	// *outputFile<<'\n';
 }
 
 int *runQuery(Map *inputData, const int query) {
-	int *array = new int(query);
-
-	Vector valueData;
+	int *array = new int[query];
 
 	FibonacciHeap fHeap;
 
 	for (MapIterator it = inputData->begin(); it != inputData->end(); ++it) {
-		valueData.push_back(it->second);
-	}
-
-	for (int i = 0; i < valueData.size(); i++) {
-		fHeap.insert(valueData[i]);
+		fHeap.insert(it->second);
 	}
 
 	for (int i = 0; i < query; i++) {
 		array[i] = fHeap.removeMaximum();
-		// Log<<"\t\t"<<i<< ". "<<array[i]<<"\n";
 	}
 
 	return array;
@@ -70,7 +62,7 @@ void parseInputFile(IFStream *inputFile, OFStream *outputFile, Map *inputData) {
 			break;
 		} else if (isdigit(line[0])) {
 			query = atoi(line);
-			int *resultArray = new int(query);
+			int *resultArray;
 
 			resultArray = runQuery(inputData, query);
 
@@ -80,9 +72,8 @@ void parseInputFile(IFStream *inputFile, OFStream *outputFile, Map *inputData) {
 				printQuery(outputFile, inputData, resultArray, query);
 			}
 
-			delete resultArray;
-			inputData->clear();
-			inputData = new Map();
+			delete[] resultArray;
+			inputData->erase(inputData->begin(), inputData->end());
 		} else {
 			char h[INT16_MAX];
 			sscanf(line, "%s %d", h, &count);
@@ -111,7 +102,7 @@ int main(int argc, char *argv[]) {
 	IFStream *inputFile;
 	inputFile = new IFStream(argv[1]);
 
-	OFStream *outputFile;
+	OFStream *outputFile = nullptr;
 	if (argv[2]) {
 		pType = File;
 		outputFile = new OFStream(argv[2]);
