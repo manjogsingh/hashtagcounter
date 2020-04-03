@@ -30,6 +30,7 @@
 *.exe
 *.out
 *.app
+hashtagcounter
 
 # I/O files
 *.txt
