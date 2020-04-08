@@ -3,6 +3,7 @@
 #include <iostream>
 
 // MARK: Node defination
+
 Node::Node(int v) {
 	prev = this;
 	next = this;
@@ -15,6 +16,7 @@ Node::Node(int v) {
 }
 
 // MARK: FibonacciHeap defination
+
 FibonacciHeap::FibonacciHeap() {
 	fHeap = nullptr;
 }
@@ -25,6 +27,7 @@ FibonacciHeap::~FibonacciHeap() {
 	}
 }
 
+/*Adds a new element to the Max Fibonacci Heap*/
 void FibonacciHeap::insert(int value) {
 	Node* in = new Node(value);
 	fHeap = _meld(fHeap, in);
@@ -32,20 +35,23 @@ void FibonacciHeap::insert(int value) {
 	delete in;
 }
 
+/*Melds two Heaps into one*/
 void FibonacciHeap::meld(FibonacciHeap* otherHeap) {
 	fHeap = _meld(fHeap, otherHeap->fHeap);
 	otherHeap->fHeap = nullptr;
-	//TODO cleanup of other
 }
 
+/*Increases the value of a Node by given input*/
 void FibonacciHeap::increaseKey(Node* n, int iValue) {
 	fHeap = _increaseKey(fHeap, n, iValue);
 }
 
+/*Returns the current Maximum value*/
 int FibonacciHeap::getMaximum() {
 	return fHeap->value;
 }
 
+/*Removes and returns the current Maximum value*/
 int FibonacciHeap::removeMaximum() {
 	if (fHeap) {
 		Node* max = fHeap;
@@ -133,6 +139,7 @@ Node* FibonacciHeap::_meld(Node* a, Node* b) {
 	return a;
 }
 
+/*Performs the child cut operation*/
 Node* FibonacciHeap::_cut(Node* heap, Node* n) {
 	if (n->next == n) {
 		n->parent->child = nullptr;
@@ -171,6 +178,7 @@ Node* FibonacciHeap::_increaseKey(Node* heap, Node* n, int iValue) {
 	return heap;
 }
 
+/*Empties out a heap by cleaning up all references and memory*/
 void FibonacciHeap::_deleteHeap(Node* n) {
 	if (n) {
 		Node* c = n;
@@ -183,6 +191,7 @@ void FibonacciHeap::_deleteHeap(Node* n) {
 	}
 }
 
+/*Adds a new child to a Node*/
 void FibonacciHeap::_addChild(Node* parent, Node* child) {
 	child->prev = child->next = child;
 	child->parent = parent;
@@ -190,6 +199,7 @@ void FibonacciHeap::_addChild(Node* parent, Node* child) {
 	parent->child = _meld(parent->child, child);
 }
 
+/*Clears out parent pointer of a Node*/
 void FibonacciHeap::_unParentAll(Node* n) {
 	if (n == nullptr) return;
 	Node* c = n;

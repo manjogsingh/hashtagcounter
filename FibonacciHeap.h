@@ -1,4 +1,5 @@
 // MARK: Node declaration
+/*Node for a Fibonacci Heap*/
 struct Node {
 	Node* prev;
 	Node* next;
@@ -13,6 +14,7 @@ struct Node {
 };
 
 // MARK: Fibonacci Heap declaration
+
 class FibonacciHeap {
 private:
 	Node* fHeap;

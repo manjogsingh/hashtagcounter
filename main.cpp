@@ -3,6 +3,7 @@
 
 PrintType pType = Console;
 
+/*Write processed query to console*/
 void printQuery(Map *inputData, int *array, int query) {
 	Map printCopy = *inputData;
 	for (int i = 0; i < query; i++) {
@@ -17,6 +18,7 @@ void printQuery(Map *inputData, int *array, int query) {
 	Log << '\n';
 }
 
+/*Write processed query to specified output file*/
 void printQuery(OFStream *outputFile, Map *inputData, int *array, int query) {
 	Map printCopy = *inputData;
 	for (int i = 0; i < query; i++) {
@@ -33,6 +35,9 @@ void printQuery(OFStream *outputFile, Map *inputData, int *array, int query) {
 	outputFile->write("\n", 1);
 }
 
+/*Create a Max Fibonacci Heap 
+insert the elements into the Max Fibonacci Heap
+return ‘n’ most popular*/
 int *runQuery(Map *inputData, const int query) {
 	int *array = new int[query];
 
@@ -49,13 +54,15 @@ int *runQuery(Map *inputData, const int query) {
 	return array;
 }
 
+/*Reads input file line by line 
+insert or run a query or stop the processing*/
 void parseInputFile(IFStream *inputFile, OFStream *outputFile, Map *inputData) {
 	char *line = new char[256];
 	int query;
 
 	while (inputFile->getline(line, 256, '\n')) {
 		if (strcmp(line, "stop") == 0 || strcmp(line, "STOP") == 0) {
-			Log << "\n\tSTOPING...\n\n";
+			// Log << "\n\tSTOPING...\n\n";
 			break;
 		} else if (isdigit(line[0])) {
 			query = atoi(line);
@@ -92,6 +99,10 @@ void parseInputFile(IFStream *inputFile, OFStream *outputFile, Map *inputData) {
 	delete[] line;
 }
 
+/* Find input file
+creates a Hash Table
+creates a output file if necessary
+cleanup after processing*/
 int main(int argc, char *argv[]) {
 	if (argc < 2 || argc > 3) {
 		Log_E << "\n\tUsage: ./hashtagcounter input.txt output.txt\n";
