@@ -8,7 +8,7 @@ void printQuery(Map *inputData, int *array, int query) {
 	for (int i = 0; i < query; i++) {
 		for (MapIterator it = printCopy.begin(); it != printCopy.end(); ++it) {
 			if (it->second == array[i]) {
-				Log << "\t" << i + 1 << ". " << it->first << " => " << it->second << '\n';
+				Log << it->first << ",";
 				printCopy.erase(it);
 				break;
 			}
@@ -22,8 +22,7 @@ void printQuery(OFStream *outputFile, Map *inputData, int *array, int query) {
 	for (int i = 0; i < query; i++) {
 		for (MapIterator it = printCopy.begin(); it != printCopy.end(); ++it) {
 			if (it->second == array[i]) {
-				String tag = String(it->first.begin() + 1, it->first.end());
-				*outputFile << tag << ",";
+				*outputFile << it->first << ",";
 				printCopy.erase(it);
 				break;
 			}
@@ -52,12 +51,10 @@ int *runQuery(Map *inputData, const int query) {
 
 void parseInputFile(IFStream *inputFile, OFStream *outputFile, Map *inputData) {
 	char *line = new char[256];
-	int count;
 	int query;
-	String hashtag;
 
 	while (inputFile->getline(line, 256, '\n')) {
-		if ((strcmp(line, "stop") || strcmp(line, "STOP")) == 0) {
+		if (strcmp(line, "stop") == 0 || strcmp(line, "STOP") == 0) {
 			Log << "\n\tSTOPING...\n\n";
 			break;
 		} else if (isdigit(line[0])) {
@@ -76,7 +73,10 @@ void parseInputFile(IFStream *inputFile, OFStream *outputFile, Map *inputData) {
 			inputData->erase(inputData->begin(), inputData->end());
 		} else {
 			char h[INT16_MAX];
-			sscanf(line, "%s %d", h, &count);
+			int count;
+			char hash;
+			String hashtag;
+			sscanf(line, "%c%s %d", &hash, h, &count);
 			hashtag = String(h);
 
 			PairCheck result;
