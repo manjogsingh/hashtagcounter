@@ -13,4 +13,3 @@ clean:
 	rm -f *.o
 	rm -f *.out
 	rm -f hashtagcounter
-	rm -f output.txt
